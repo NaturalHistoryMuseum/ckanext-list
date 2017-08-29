@@ -1,0 +1,15 @@
+
+{{ title }}
+
+{{#records}}
+    <h1>{{title}}</h1>
+    <p>
+    {{_id}}
+        <ul>
+        {{#attributes}}
+            <li>{{label}}: {{value}}</li>
+        {{/attributes}}
+        </ul>
+
+    </p>
+{{/records}}

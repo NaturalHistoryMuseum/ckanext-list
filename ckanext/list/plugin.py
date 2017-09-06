@@ -26,10 +26,10 @@ class ListPlugin(p.SingletonPlugin):
         p.toolkit.add_resource('theme/public', 'ckanext-list')
 
     def view_template(self, context, data_dict):
-        return 'list_view.html'
+        return 'list/list_view.html'
 
     def form_template(self, context, data_dict):
-        return 'list_form.html'
+        return 'list/list_form.html'
 
     def can_view(self, data_dict):
         """

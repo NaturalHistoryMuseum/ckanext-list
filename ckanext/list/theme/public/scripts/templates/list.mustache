@@ -3,8 +3,13 @@
 
 {{#records}}
     <h1>{{title}}</h1>
+
+    <a target="_top" href="/dataset/{{ resourceView.package_id }}/resource/{{ resourceView.resource_id }}/record/{{_id}}">{{title}}</a>
+
+
+
     <p>
-    {{_id}}
+
         <ul>
         {{#attributes}}
             <li>{{label}}: {{value}}</li>

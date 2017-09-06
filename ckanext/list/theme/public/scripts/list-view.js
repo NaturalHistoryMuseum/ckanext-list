@@ -94,6 +94,9 @@ this.list = this.list || {};
 
 
     initializeView: function (dataset, resourceView) {
+
+      console.log(resourceView);
+
       var view;
       if(typeof(dataset.recordCount) == 'undefined' || dataset.recordCount == 0){
         view = new NoRecordsView({
@@ -127,7 +130,8 @@ this.list = this.list || {};
           return record;
         });
         var data = {
-          records: records
+          records: records,
+          resourceView: resourceView
         };
         $.get('/scripts/templates/list.mustache', function(template){
           var out = Mustache.render(template, data);

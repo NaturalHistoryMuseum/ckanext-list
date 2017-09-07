@@ -50,6 +50,7 @@ class ListPlugin(p.SingletonPlugin):
             'title': 'List',
             'schema': {
                 'title_field': [is_datastore_field],
+                'secondary_title_field': [ignore_empty, is_datastore_field],
                 'fields': [ignore_empty, is_datastore_field],
                 'image_field': [ignore_empty, is_datastore_field],
             },

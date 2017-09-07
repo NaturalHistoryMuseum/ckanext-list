@@ -5,7 +5,7 @@
   {% do classes.append('control-select') %}
   {%- set extra_html = caller() if caller -%}
   {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
-    <select id="{{ id or name }}" name="{{ name }}" multiple>
+    <select id="{{ id or name }}" name="{{ name }}" multiple size="20">
       {% for option in options %}
         <option value="{{ option.value }}"{% if option.value in selected %} selected{% endif %}>{{ option.text or option.value }}</option>
       {% endfor %}
@@ -14,6 +14,11 @@
 {% endmacro %}
 
 {{ form.select('title_field', label=_('Title field'), options=fields, selected=data.title_field, error=errors.title_field) }}
+<span class="info-block info-inline">
+  <i class="icon-info-sign"></i>
+  If the primary title field isn't available, use this field instead.
+</span>
+{{ form.select('secondary_title_field', label=_('Secondary title field'), options=fields, selected=data.secondary_title_field, error=errors.secondary_title_field) }}
 
 {{ form.select('image_field', label=_('Image field'), options=[''] + fields, selected=data.image_field, error=errors.image_field) }}
 

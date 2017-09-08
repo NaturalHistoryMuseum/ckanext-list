@@ -33,11 +33,6 @@ this.list = this.list || {};
         loadView: function (resourceData, resourceView) {
             var self = this;
 
-            function showError(msg) {
-                msg = msg || _('error loading view');
-                window.parent.ckan.pubsub.publish('data-viewer-error', msg);
-            }
-
             resourceData.url = this.normalizeUrl(resourceData.url);
             if (resourceData.formatNormalized === '') {
                 var tmp = resourceData.url.split('/');
@@ -50,7 +45,7 @@ this.list = this.list || {};
                 }
             }
 
-            var errorMsg, dataset;
+            var dataset;
 
             resourceData.backend = 'ckan';
             resourceData.endpoint = jQuery('body').data('site-root') + 'api';
@@ -74,30 +69,28 @@ this.list = this.list || {};
                 }
             }
             dataset.queryState.set(query.toJSON(), {silent: true});
+            self.render(dataset, resourceView);
+            // On query state change (user has changed page)
+            this.listenTo(dataset.queryState, 'change', function () {
+                self.render(dataset, resourceView);
+            });
+        },
 
-            self.query(dataset);
-
+        render: function (dataset, resourceView) {
+            var errorMsg = this.options.i18n.errorLoadingPreview + ': ' + this.options.i18n.errorDataStore;
             dataset.fetch()
                 .done(function (dataset) {
                     self.initializeView(dataset, resourceView);
                 })
                 .fail(function (error) {
                     if (error.message) errorMsg += ' (' + error.message + ')';
-                    showError(errorMsg);
+                    self.showError(errorMsg);
                 });
+        },
 
-            this.listenTo(dataset.queryState, 'change', function(){
-                dataset.fetch()
-                    .done(function (dataset) {
-                        console.log(dataset);
-                        self.el.html('LOADING')
-                        self.initializeView(dataset, resourceView);
-                    })
-                    .fail(function (error) {
-                        if (error.message) errorMsg += ' (' + error.message + ')';
-                        showError(errorMsg);
-                    });
-            });
+        showError: function (msg) {
+            msg = msg || _('error loading view');
+            window.parent.ckan.pubsub.publish('data-viewer-error', msg);
         },
 
         normalizeUrl: function (url) {
@@ -110,8 +103,8 @@ this.list = this.list || {};
 
         initializeView: function (dataset, resourceView) {
             var controls = [
-              new recline.View.Pager({model: dataset}),
-              new recline.View.RecordCount({model: dataset})
+                new recline.View.Pager({model: dataset}),
+                new recline.View.RecordCount({model: dataset})
             ];
             if (typeof(dataset.recordCount) == 'undefined' || dataset.recordCount == 0) {
                 self.el.html('<p class="recline-norecords">No matching records</p>');
@@ -125,7 +118,7 @@ this.list = this.list || {};
                     // Add title
                     if (resourceView.title_field) {
                         record.title = data.attributes[resourceView.title_field];
-                        if(!record.title && resourceView.secondary_title_field){
+                        if (!record.title && resourceView.secondary_title_field) {
                             record.title = data.attributes[resourceView.secondary_title_field];
                         }
                     }
@@ -151,13 +144,21 @@ this.list = this.list || {};
                     resourceView: resourceView
                 };
 
-                $.get('/scripts/templates/list.mustache?' + Date.now(), function (template) {
-                    console.log('RENDER');
-                    var out = Mustache.render(template, data);
-                    self.el.append(pager.el);
-                    self.el.append(out);
+                $.get('/scripts/templates/list.mustache', function (template) {
+                    var newElements = $('<div />');
+                    self._renderControls(newElements, controls);
+                    newElements.append(Mustache.render(template, data));
+                    self.el.html(newElements);
                 });
             }
+        },
+
+        _renderControls: function (el, controls) {
+          var controlsEl = $("<div class=\"clearfix controls\" />");
+          for (var i = 0; i < controls.length; i++) {
+            controlsEl.append(controls[i].el);
+          }
+          $(el).append(controlsEl);
         },
 
         fieldNameToLabel: function (fieldName) {

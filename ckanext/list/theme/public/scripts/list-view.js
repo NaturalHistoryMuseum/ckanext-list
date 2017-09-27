@@ -127,6 +127,11 @@ this.list = this.list || {};
                         var img = data.attributes[resourceView.image_field];
                         if ($.type(img) !== "undefined" && img) {
                             record.image = JSON.parse(img)[0];
+                            // Yuck!! Hack for NHM MAM images.
+                            // FIXME: Mustache template per dataset resource
+                            if(record.image.identifier.indexOf('www.nhm.ac.uk/services')!== -1){
+                                record.image.identifier = record.image.identifier.replace('preview', 'thumbnail')
+                            }
                         }
                     }
                     $.each(resourceView.fields, function (_, fieldName) {

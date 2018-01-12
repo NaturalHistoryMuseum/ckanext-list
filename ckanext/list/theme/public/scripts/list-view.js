@@ -126,7 +126,21 @@ this.list = this.list || {};
                     if (resourceView.image_field) {
                         var img = data.attributes[resourceView.image_field];
                         if ($.type(img) !== "undefined" && img) {
-                            record.image = JSON.parse(img)[0];
+                            var images = JSON.parse(img);
+                            // by default we'll use the first image for the record
+                            var imageIndex = 0;
+                            // if there are multiple images available, see if
+                            // there's a "specimen" image and use it if so
+                            if (images.length > 0) {
+                                for (var i = 0, l = images.length; i < l; i++) {
+                                    if (images[i].category === 'Specimen') {
+                                        imageIndex = i;
+                                        break;
+                                    }
+                                }
+                            }
+                            // set the record's image
+                            record.image = images[imageIndex];
                             // Yuck!! Hack for NHM MAM images.
                             // FIXME: Mustache template per dataset resource
                             if(record.image.identifier.indexOf('www.nhm.ac.uk/services')!== -1){

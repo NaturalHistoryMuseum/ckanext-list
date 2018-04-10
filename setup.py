@@ -4,16 +4,17 @@
 # This file is part of ckanext-list
 # Created by the Natural History Museum in London, UK
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-version = u'0.1'
+version = u'0.2'
 
 setup(
     name=u'ckanext-list',
     version=version,
     description=u'Summary list view for datastore records.',
     long_description=u'',
-    classifiers=[],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[],
+    # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords=u'',
     author=u'Ben Scott',
     author_email=u'ben@benscott.co.uk',
@@ -29,4 +30,4 @@ setup(
             [ckan.plugins]
             list=ckanext.list.plugin:ListPlugin
         ''',
-)
+    )

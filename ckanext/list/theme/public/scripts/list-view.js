@@ -124,9 +124,8 @@ this.list = this.list || {};
                     }
                     // Add image
                     if (resourceView.image_field) {
-                        var img = data.attributes[resourceView.image_field];
-                        if ($.type(img) !== "undefined" && img) {
-                            var images = JSON.parse(img);
+                        var images = data.attributes[resourceView.image_field];
+                        if ($.type(images) !== "undefined" && images) {
                             // by default we'll use the first image for the record
                             var imageIndex = 0;
                             // if there are multiple images available, see if

@@ -165,7 +165,8 @@ this.list = this.list || {};
                 });
                 var data = {
                     records: records,
-                    resourceView: resourceView
+                    resourceView: resourceView,
+                    versionPart: self._getVersionPart()
                 };
 
                 $.get('/scripts/templates/list.mustache', function (template) {
@@ -175,6 +176,32 @@ this.list = this.list || {};
                     self.el.html(newElements);
                 });
             }
+        },
+
+        /**
+         * Retrieve a version value, if there is one, from the filters in the query string for use
+         * in the record URL. We look for the filters __version__ value instead of using the top
+         * level version query string parameter as this plugin isn't compatible with the version
+         * parameter yet due to the way CKAN handlers query strings. If no version is found in the
+         * filters, an empty string is returned. If there is a version found the format of the
+         * response is "/<version>".
+         *
+         * @returns {string}
+         * @private
+         */
+        _getVersionPart: function() {
+            // see if we can use ckan core code to get to the filters
+            if (window.parent.ckan.views && window.parent.ckan.views.filters) {
+                // get the version if it's there
+                let version = window.parent.ckan.views.filters.get('__version__');
+                // if the version isn't present we get back undefined
+                if (typeof version !== 'undefined') {
+                    // version will be an array, get the first element as there should only ever be
+                    // one
+                    return '/' + version[0];
+                }
+            }
+            return '';
         },
 
         _renderControls: function (el, controls) {

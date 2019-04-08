@@ -124,9 +124,8 @@ this.list = this.list || {};
                     }
                     // Add image
                     if (resourceView.image_field) {
-                        var img = data.attributes[resourceView.image_field];
-                        if ($.type(img) !== "undefined" && img) {
-                            var images = JSON.parse(img);
+                        var images = data.attributes[resourceView.image_field];
+                        if ($.type(images) !== "undefined" && images) {
                             // by default we'll use the first image for the record
                             var imageIndex = 0;
                             // if there are multiple images available, see if
@@ -141,6 +140,12 @@ this.list = this.list || {};
                             }
                             // set the record's image
                             record.image = images[imageIndex];
+                            // remove the _id from the image so that mustache template renders
+                            // correctly - specifically so that the href in the a tag surrounding
+                            // the actual image goes to the record not the image's _id if indeed
+                            // there is one defined
+                            delete record.image._id;
+
                             // Yuck!! Hack for NHM MAM images.
                             // FIXME: Mustache template per dataset resource
                             if(record.image.identifier.indexOf('www.nhm.ac.uk/services')!== -1){
@@ -160,7 +165,8 @@ this.list = this.list || {};
                 });
                 var data = {
                     records: records,
-                    resourceView: resourceView
+                    resourceView: resourceView,
+                    versionPart: self._getVersionPart()
                 };
 
                 $.get('/scripts/templates/list.mustache', function (template) {
@@ -170,6 +176,32 @@ this.list = this.list || {};
                     self.el.html(newElements);
                 });
             }
+        },
+
+        /**
+         * Retrieve a version value, if there is one, from the filters in the query string for use
+         * in the record URL. We look for the filters __version__ value instead of using the top
+         * level version query string parameter as this plugin isn't compatible with the version
+         * parameter yet due to the way CKAN handlers query strings. If no version is found in the
+         * filters, an empty string is returned. If there is a version found the format of the
+         * response is "/<version>".
+         *
+         * @returns {string}
+         * @private
+         */
+        _getVersionPart: function() {
+            // see if we can use ckan core code to get to the filters
+            if (window.parent.ckan.views && window.parent.ckan.views.filters) {
+                // get the version if it's there
+                let version = window.parent.ckan.views.filters.get('__version__');
+                // if the version isn't present we get back undefined
+                if (typeof version !== 'undefined') {
+                    // version will be an array, get the first element as there should only ever be
+                    // one
+                    return '/' + version[0];
+                }
+            }
+            return '';
         },
 
         _renderControls: function (el, controls) {

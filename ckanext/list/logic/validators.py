@@ -17,7 +17,7 @@ def is_datastore_field(value, context):
     :param context: return:
 
     '''
-    fields = get_datastore_fields(context[u'resource'].id, context)
+    fields = get_datastore_fields(toolkit.c.resource[u'id'], context)
     #  Convert substring to a list, so we can use same process
     # For multiple select
     if value:

@@ -39,6 +39,7 @@
 
 .list-view-item-content h4{
     margin: 0 0 15px 0;
+    font-weight: bold;
 }
 
 .controls{

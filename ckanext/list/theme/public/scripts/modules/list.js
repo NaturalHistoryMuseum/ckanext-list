@@ -5,6 +5,7 @@ this.ckan.module('list', function ($, _) {
         this.view = new list.ListView({
             resource: JSON.parse(this.options.resource),
             resourceView: JSON.parse(this.options.resourceView),
+            recordUrl: this.options.recordUrl,
             i18n: this.options.i18n
         });
         $(this.el).append(this.view.el);

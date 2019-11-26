@@ -64,8 +64,8 @@ this.list = this.list || {};
                 $.each(filters, function (field, values) {
                     query.addFilter({type: 'term', field: field, term: values});
                 });
-                if (window.parent.ckan.views.filters.getFullText()) {
-                    query.set({q: window.parent.ckan.views.filters.getFullText()});
+                if (window.parent.ckan.views.filters._searchParams.q) {
+                    query.set({q: window.parent.ckan.views.filters._searchParams.q});
                 }
             }
             dataset.queryState.set(query.toJSON(), {silent: true});
@@ -110,10 +110,12 @@ this.list = this.list || {};
                 self.el.html('<p class="recline-norecords">No matching records</p>');
             } else {
                 var record;
+                var recordUrl = this.options.recordUrl;
                 var records = dataset.records.models.map(function (data) {
                     record = {
                         _id: data.attributes._id,
-                        attributes: []
+                        attributes: [],
+                        url: recordUrl.replace(/REPLACEME/g, data.attributes._id)
                     };
                     // Add title
                     if (resourceView.title_field) {

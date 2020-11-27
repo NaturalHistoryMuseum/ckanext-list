@@ -8,6 +8,7 @@
             data-module-record-url="{{ h.url_for('record.view', package_name=package.name, resource_id=resource.id, record_id='REPLACEME') }}"
     >
     </div>
-    {% resource 'ckanext-list/main' %}
-    {% resource 'ckanext-nhm/view-controls' %}
+    {% asset 'ckanext-list/main-css' %}
+    {% asset 'ckanext-list/main-js' %}
+    {% asset 'ckanext-nhm/view-controls' %}
 {% endblock %}

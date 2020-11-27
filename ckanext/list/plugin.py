@@ -29,18 +29,18 @@ class ListPlugin(SingletonPlugin):
     def update_config(self, config):
         '''Add our template directories to the list of available templates
 
-        :param config: 
+        :param config:
 
         '''
         toolkit.add_template_directory(config, u'theme/templates')
         toolkit.add_public_directory(config, u'theme/public')
-        toolkit.add_resource(u'theme/public', u'ckanext-list')
+        toolkit.add_resource(u'theme/assets', u'ckanext-list')
 
     def view_template(self, context, data_dict):
         '''
 
-        :param context: 
-        :param data_dict: 
+        :param context:
+        :param data_dict:
 
         '''
         return u'list/list_view.html'
@@ -48,8 +48,8 @@ class ListPlugin(SingletonPlugin):
     def form_template(self, context, data_dict):
         '''
 
-        :param context: 
-        :param data_dict: 
+        :param context:
+        :param data_dict:
 
         '''
         return u'list/list_form.html'
@@ -88,8 +88,8 @@ class ListPlugin(SingletonPlugin):
     def setup_template_variables(self, context, data_dict):
         '''Setup variables available to templates
 
-        :param context: 
-        :param data_dict: 
+        :param context:
+        :param data_dict:
 
         '''
         datastore_fields = get_datastore_fields(data_dict[u'resource'][u'id'], context)

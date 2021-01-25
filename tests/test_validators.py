@@ -5,6 +5,7 @@ from unittest.mock import patch, MagicMock
 from ckanext.list.logic.validators import is_datastore_field
 
 
+@pytest.mark.filterwarnings('ignore::sqlalchemy.exc.SADeprecationWarning')
 @pytest.mark.usefixtures('with_request_context')
 def test_is_datastore_field_valid():
     toolkit.c.resource = {'id': MagicMock()}
@@ -15,6 +16,7 @@ def test_is_datastore_field_valid():
         assert is_datastore_field('field2', MagicMock()) == 'field2'
 
 
+@pytest.mark.filterwarnings('ignore::sqlalchemy.exc.SADeprecationWarning')
 @pytest.mark.usefixtures('with_request_context')
 def test_is_datastore_field_invalid():
     toolkit.c.resource = {'id': MagicMock()}
@@ -25,6 +27,7 @@ def test_is_datastore_field_invalid():
             is_datastore_field('field3', MagicMock())
 
 
+@pytest.mark.filterwarnings('ignore::sqlalchemy.exc.SADeprecationWarning')
 @pytest.mark.usefixtures('with_request_context')
 def test_is_datastore_field_valid_multiple():
     toolkit.c.resource = {'id': MagicMock()}
@@ -35,6 +38,7 @@ def test_is_datastore_field_valid_multiple():
         assert is_datastore_field(fields, MagicMock()) == fields
 
 
+@pytest.mark.filterwarnings('ignore::sqlalchemy.exc.SADeprecationWarning')
 @pytest.mark.usefixtures('with_request_context')
 def test_is_datastore_field_invalid_multiple():
     toolkit.c.resource = {'id': MagicMock()}

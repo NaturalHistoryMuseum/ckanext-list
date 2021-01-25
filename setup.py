@@ -6,7 +6,7 @@
 
 from setuptools import find_packages, setup
 
-__version__ = u'1.0.0-alpha'
+__version__ = u'1.0.1'
 
 with open(u'README.md', u'r') as f:
     __long_description__ = f.read()
@@ -31,10 +31,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[],
-    entry_points= \
-        u'''
+    entry_points=u'''
         [ckan.plugins]
             list=ckanext.list.plugin:ListPlugin
-
         ''',
-    )
+)

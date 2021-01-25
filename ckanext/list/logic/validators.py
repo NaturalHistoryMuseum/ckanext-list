@@ -17,12 +17,12 @@ def is_datastore_field(value, context):
     :return: the field name if it is valid, otherwise raises toolkit.Invalid error
     :raises: toolkit.Invalid if the field name is invalid
     '''
-    existing_fields = get_datastore_fields(toolkit.c.resource[u'id'], context)
+    existing_fields = get_datastore_fields(toolkit.c.resource['id'], context)
     if value:
         # there can just be one string or a list of strings
-        fields = [value] if isinstance(value, basestring) else value
+        fields = [value] if isinstance(value, str) else value
         # loop through values, making sure they're in the datastore
         if any(field not in existing_fields for field in fields):
-            raise toolkit.Invalid(toolkit._(u'Field not found in datastore'))
+            raise toolkit.Invalid(toolkit._('Field not found in datastore'))
 
     return value

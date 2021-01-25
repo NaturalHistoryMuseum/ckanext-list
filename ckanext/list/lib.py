@@ -17,8 +17,8 @@ def get_datastore_fields(resource_id, context):
     :return: list of field names
     '''
     data = {
-        u'resource_id': resource_id,
-        u'limit': 0
+        'resource_id': resource_id,
+        'limit': 0
     }
-    fields = toolkit.get_action(u'datastore_search')(context, data).get(u'fields', {})
-    return sorted([f[u'id'] for f in fields])
+    fields = toolkit.get_action('datastore_search')(context, data).get('fields', {})
+    return sorted([f['id'] for f in fields])

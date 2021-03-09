@@ -171,7 +171,7 @@ this.list = this.list || {};
                     versionPart: self._getVersionPart()
                 };
 
-                $.get('/scripts/templates/list.mustache', function (template) {
+                $.get('/mustache_templates/list.mustache', function (template) {
                     var newElements = $('<div />');
                     self._renderControls(newElements, controls);
                     newElements.append(Mustache.render(template, data));

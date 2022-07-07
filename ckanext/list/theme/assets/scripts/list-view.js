@@ -147,12 +147,6 @@ this.list = this.list || {};
                             // the actual image goes to the record not the image's _id if indeed
                             // there is one defined
                             delete record.image._id;
-
-                            // Yuck!! Hack for NHM MAM images.
-                            // FIXME: Mustache template per dataset resource
-                            if(record.image.identifier.indexOf('www.nhm.ac.uk/services')!== -1){
-                                record.image.identifier = record.image.identifier.replace('preview', 'thumbnail')
-                            }
                         }
                     }
                     $.each(resourceView.fields, function (_, fieldName) {

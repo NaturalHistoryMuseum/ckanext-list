@@ -14,3 +14,11 @@ main-css:
   output: ckanext-list/%(version)s_main.css
   contents:
     - css/list.css
+
+view-controls:
+  output: ckanext-list/%(version)s_view-controls.css
+  filters: less
+  config:
+    LESS_BIN: ../../../../../node_modules/less/bin/lessc
+  contents:
+    - less/view-controls.less

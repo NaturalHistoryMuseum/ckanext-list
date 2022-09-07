@@ -101,6 +101,66 @@ this.list = this.list || {};
             }
         },
 
+        /**
+         * Given the record data and the resourceView info, extracts a single representative image
+         * to display. The return is an object in the correct format for the mustache template.
+         *
+         * @param data the record data
+         * @param resourceView the resourceView settings
+         * @returns {null|{identifier, title}|*} either null if no image exists or an object with
+         *                                       identifier and title attributes as per the mustache
+         *                                       template.
+         * @private
+         */
+        _extractImage(data, resourceView) {
+            const images = data.attributes[resourceView.image_field];
+            if (!images) {
+                return null;
+            }
+
+            function fromString(source) {
+                return {identifier: source, title: source};
+            }
+
+            function fromObject(source) {
+                // remove the _id from the image (if present) so that mustache template renders
+                // correctly - specifically so that the href in the a tag surrounding the actual
+                // image goes to the record not the image's _id if indeed there is one defined
+                delete source._id
+                return source
+            }
+
+            switch ($.type(images)) {
+                case 'string':
+                    let url = images;
+                    // if there is a delimiter specified, use it to split the string and then use
+                    // the first element
+                    if (!!resourceView.image_delimiter) {
+                        url = images.split(resourceView.image_delimiter)[0];
+                    }
+                    return fromString(url);
+                case 'array':
+                    if ($.type(images[0]) === 'string') {
+                        // just use the first string in the list
+                        return fromString(images[0]);
+                    } else {
+                        // by default, we'll use the first image for the record
+                        let imageIndex = 0;
+                        // if there are multiple images available, see if there's a "specimen" image
+                        // and use it if so
+                        if (images.length > 1) {
+                            const spIndex = images.findIndex(image => image.category === 'Specimen')
+                            if (spIndex !== -1) {
+                                imageIndex = spIndex;
+                            }
+                        }
+                        return fromObject(images[imageIndex]);
+                    }
+                default:
+                    return fromObject(images)
+            }
+        },
+
         initializeView: function (dataset, resourceView) {
             var controls = [
                 new recline.View.Pager({model: dataset}),
@@ -126,27 +186,9 @@ this.list = this.list || {};
                     }
                     // Add image
                     if (resourceView.image_field) {
-                        var images = data.attributes[resourceView.image_field];
-                        if ($.type(images) !== "undefined" && images) {
-                            // by default we'll use the first image for the record
-                            var imageIndex = 0;
-                            // if there are multiple images available, see if
-                            // there's a "specimen" image and use it if so
-                            if (images.length > 0) {
-                                for (var i = 0, l = images.length; i < l; i++) {
-                                    if (images[i].category === 'Specimen') {
-                                        imageIndex = i;
-                                        break;
-                                    }
-                                }
-                            }
-                            // set the record's image
-                            record.image = images[imageIndex];
-                            // remove the _id from the image so that mustache template renders
-                            // correctly - specifically so that the href in the a tag surrounding
-                            // the actual image goes to the record not the image's _id if indeed
-                            // there is one defined
-                            delete record.image._id;
+                        const image = self._extractImage(data, resourceView);
+                        if (!!image) {
+                            record.image = image;
                         }
                     }
                     $.each(resourceView.fields, function (_, fieldName) {

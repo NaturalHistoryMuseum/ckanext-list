@@ -22,4 +22,8 @@
 
 {{ form.select('image_field', label=_('Image field'), options=[''] + fields, selected=data.image_field, error=errors.image_field) }}
 
+{% call form.input('image_delimiter', label=_('Image list delimiter'), value=data.image_delimiter, error=errors.image_delimiter) %}
+    {{ form.info(_('If your image field is the text type and contains a series of delimited image URLs instead of just a single one enter it here'), inline=True) }}
+{% endcall %}
+
 {{ multiselect('fields', label=_('Fields'), options=fields, selected=data.fields, error=errors.fields) }}

@@ -71,6 +71,7 @@ class ListPlugin(SingletonPlugin):
                 'secondary_title_field': [ignore_empty, is_datastore_field],
                 'fields': [ignore_empty, is_datastore_field],
                 'image_field': [ignore_empty, is_datastore_field],
+                'image_delimiter': [ignore_empty],
             },
             'icon': 'list-alt',
             'iframed': True,

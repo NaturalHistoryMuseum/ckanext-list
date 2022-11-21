@@ -1,3 +1,4 @@
+<!--header-start-->
 <img src=".github/nhm-logo.svg" align="left" width="150px" height="100px" hspace="40"/>
 
 # ckanext-list
@@ -10,16 +11,20 @@
 
 _A CKAN extension that adds a list view for resources._
 
+<!--header-end-->
 
 # Overview
 
+<!--overview-start-->
 This extension adds a list view for resources on a CKAN instance. Records are listed as brief summaries, with a configurable set of fields shown for each.
 
 **NB**: This extension currently only works with the Natural History Museum's theme extension [ckanext-nhm](https://github.com/NaturalHistoryMuseum/ckanext-nhm); this [should be fixed](https://github.com/NaturalHistoryMuseum/ckanext-list/issues/9) in future releases (contributions are always welcome).
 
+<!--overview-end-->
 
 # Installation
 
+<!--installation-start-->
 Path variables used below:
 - `$INSTALL_FOLDER` (i.e. where CKAN is installed), e.g. `/usr/lib/ckan/default`
 - `$CONFIG_FILE`, e.g. `/etc/ckan/default/development.ini`
@@ -57,13 +62,18 @@ Path variables used below:
   ckan.plugins = ... list
   ```
 
+<!--installation-end-->
+
 # Configuration
 
+<!--configuration-start-->
 There are currently no options that can be specified in your .ini config file.
 
+<!--configuration-end-->
 
 # Usage
 
+<!--usage-start-->
 To use the view in a template:
 
 ```html+jinja
@@ -75,9 +85,11 @@ To use the view in a template:
 {% resource 'ckanext-list/main' %}
 ```
 
+<!--usage-end-->
 
 # Testing
 
+<!--testing-start-->
 There is a Docker compose configuration available in this repository to make it easier to run tests.
 
 To run the tests against ckan 2.9.x on Python3:
@@ -96,3 +108,5 @@ docker-compose run ckan
 ```
 
 The ckan image uses the Dockerfile in the `docker/` folder.
+
+<!--testing-end-->

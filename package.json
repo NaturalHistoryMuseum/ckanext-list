@@ -1,6 +1,6 @@
 {
   "name": "ckanext-list",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A CKAN extension that adds a list view for resources.",
   "repository": {
     "type": "git",

@@ -29,38 +29,40 @@ Path variables used below:
 - `$INSTALL_FOLDER` (i.e. where CKAN is installed), e.g. `/usr/lib/ckan/default`
 - `$CONFIG_FILE`, e.g. `/etc/ckan/default/development.ini`
 
-1. Clone the repository into the `src` folder:
+## Installing from PyPI
 
-  ```bash
-  cd $INSTALL_FOLDER/src
-  git clone https://github.com/NaturalHistoryMuseum/ckanext-list.git
-  ```
+```shell
+pip install ckanext-list
+```
+
+## Installing from source
+
+1. Clone the repository into the `src` folder:
+   ```shell
+   cd $INSTALL_FOLDER/src
+   git clone https://github.com/NaturalHistoryMuseum/ckanext-list.git
+   ```
 
 2. Activate the virtual env:
+   ```shell
+   . $INSTALL_FOLDER/bin/activate
+   ```
 
-  ```bash
-  . $INSTALL_FOLDER/bin/activate
-  ```
+3. Install via pip:
+   ```shell
+   pip install $INSTALL_FOLDER/src/ckanext-list
+   ```
 
-3. Install the requirements from requirements.txt:
+### Installing in editable mode
 
-  ```bash
-  cd $INSTALL_FOLDER/src/ckanext-list
-  pip install -r requirements.txt
-  ```
+Installing from a `pyproject.toml` in editable mode (i.e. `pip install -e`) requires `setuptools>=64`; however, CKAN 2.9 requires `setuptools==44.1.0`. See [our CKAN fork](https://github.com/NaturalHistoryMuseum/ckan) for a version of v2.9 that uses an updated setuptools if this functionality is something you need.
 
-4. Run setup.py:
+## Post-install setup
 
-  ```bash
-  cd $INSTALL_FOLDER/src/ckanext-list
-  python setup.py develop
-  ```
-
-5. Add 'list' to the list of plugins in your `$CONFIG_FILE`:
-
-  ```ini
-  ckan.plugins = ... list
-  ```
+1. Add 'list' to the list of plugins in your `$CONFIG_FILE`:
+   ```ini
+   ckan.plugins = ... list
+   ```
 
 <!--installation-end-->
 

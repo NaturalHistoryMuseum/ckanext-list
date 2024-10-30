@@ -1,6 +1,7 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
 from ckan.plugins import toolkit
-from unittest.mock import patch, MagicMock
 
 from ckanext.list.logic.validators import is_datastore_field
 

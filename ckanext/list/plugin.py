@@ -8,6 +8,7 @@ import json
 from logging import getLogger
 
 from ckan.plugins import SingletonPlugin, implements, interfaces, toolkit
+
 from ckanext.list.lib import get_datastore_fields
 from ckanext.list.logic.validators import is_datastore_field
 

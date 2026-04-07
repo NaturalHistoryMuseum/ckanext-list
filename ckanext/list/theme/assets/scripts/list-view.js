@@ -201,10 +201,16 @@ this.list = this.list || {};
           }
           $.each(resourceView.fields, function (_, fieldName) {
             if (data.attributes[fieldName]) {
-              record.attributes.push({
+              let attribute = {
                 label: self.fieldNameToLabel(fieldName),
                 value: data.attributes[fieldName],
-              });
+              };
+              if (fieldName === 'associatedOccurrences') {
+                const guid = attribute.value.slice(9);
+                const url = `${document.location.origin}/object/${guid}`;
+                attribute.value = `<a href="${url}" target='_blank'>${data.attributes[fieldName]}</a>`;
+              }
+              record.attributes.push(attribute);
             }
           });
           return record;

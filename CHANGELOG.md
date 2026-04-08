@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.2.0 (2026-04-08)
+
+### Feature
+
+- support associatedOccurrences link
+
 ## v2.1.11 (2025-06-09)
 
 ### Build System(s)
